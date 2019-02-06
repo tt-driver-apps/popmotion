@@ -1,4 +1,5 @@
 import { AnimatedPoser } from 'animated-pose';
+import { Platform } from 'react-native';
 
 type TransformList = Array<{ [key: string]: any }>;
 
@@ -67,6 +68,7 @@ export const getStylesFromPoser = (poser: AnimatedPoser) => {
 
   // If we have a transform value, we need to create a transform property.
   if (hasTransform) {
+    var perspectiveTransformArray = Platform.OS === 'ios' ? [] : [{ perspective: 1000 }];
     styles.transform = defaultTransformOrder.reduce(
       (acc, key) => {
         if (values[key]) {
@@ -74,7 +76,7 @@ export const getStylesFromPoser = (poser: AnimatedPoser) => {
         }
         return acc;
       },
-      [{ perspective: 1000 }] as TransformList
+      perspectiveTransformArray as TransformList
     );
   }
 
